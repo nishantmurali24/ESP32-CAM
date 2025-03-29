@@ -1,0 +1,2 @@
+source /Users/NishantMurali/Desktop/ECEN 403/esp32-cam-live-streaming/build/gdbinit/symbols
+source /Users/NishantMurali/Desktop/ECEN 403/esp32-cam-live-streaming/build/gdbinit/connect
