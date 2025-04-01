@@ -46,11 +46,11 @@ static esp_err_t init_camera(void)
         .ledc_channel = LEDC_CHANNEL_0,
 
         .pixel_format = PIXFORMAT_JPEG,
-        .frame_size = FRAMESIZE_QVGA,
-
-        .jpeg_quality = 12,
+        .frame_size = FRAMESIZE_VGA, // Lower resolution for better performance
+        .jpeg_quality = 10,  // Lower quality for faster streaming
         .fb_count = 1,
-        .grab_mode = CAMERA_GRAB_WHEN_EMPTY};//CAMERA_GRAB_LATEST. Sets when buffers should be filled
+        .grab_mode = CAMERA_GRAB_WHEN_EMPTY // CAM_GRAB_LATEST. Sets when buffers should be filled
+    };
     esp_err_t err = esp_camera_init(&camera_config);
     if (err != ESP_OK)
     {
@@ -73,6 +73,9 @@ esp_err_t jpg_stream_httpd_handler(httpd_req_t *req){
     // Add CORS headers
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*"); // Allow all origins
     httpd_resp_set_hdr(req, "Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Headers", "Content-Type"); // Optional
+    httpd_resp_set_hdr(req, "Connection", "keep-alive");
+    httpd_resp_set_hdr(req, "Cache-Control", "no-cache");
 
     res = httpd_resp_set_type(req, _STREAM_CONTENT_TYPE);
     if(res != ESP_OK){
@@ -135,6 +138,7 @@ httpd_uri_t uri_get = {
     .method = HTTP_GET,
     .handler = jpg_stream_httpd_handler,
     .user_ctx = NULL};
+
 httpd_handle_t setup_server(void)
 {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
@@ -174,5 +178,5 @@ void app_main()
         ESP_LOGI(TAG, "ESP32 CAM Web Server is up and running\n");
     }
     else
-        ESP_LOGI(TAG, "Failed to connected with Wi-Fi, check your network Credentials\n");
+        ESP_LOGI(TAG, "Failed to connect with Wi-Fi, check your network Credentials\n");
 }

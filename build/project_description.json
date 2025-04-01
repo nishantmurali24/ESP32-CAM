@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "esp32-cam-live-streaming",
-    "project_version":    "1",
+    "project_version":    "84b5e0d-dirty",
     "project_path":       "/Users/NishantMurali/Desktop/ECEN 403/esp32-cam-live-streaming",
     "idf_path":           "/Users/NishantMurali/esp/esp-idf",
     "build_dir":          "/Users/NishantMurali/Desktop/ECEN 403/esp32-cam-live-streaming/build",
